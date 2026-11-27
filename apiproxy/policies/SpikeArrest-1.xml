@@ -1,0 +1,8 @@
+<SpikeArrest name="SpikeArrest-1">
+    <DisplayName>SpikeArrest-1</DisplayName>
+    <Properties/>
+    <!-- Proteccion contra picos: 10 peticiones por segundo por app (caso de uso: Quota + Spike Arrest 10ps) -->
+    <Rate>10ps</Rate>
+    <Identifier ref="request.header.x-apikey"/>
+    <UseEffectiveCount>true</UseEffectiveCount>
+</SpikeArrest>

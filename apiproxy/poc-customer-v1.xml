@@ -6,10 +6,16 @@
     <BasePaths>/v1/poc-customer</BasePaths>
     <Policies>
         <Policy>VerifyAPIKey-1</Policy>
+        <Policy>KVM-Config</Policy>
+        <Policy>SpikeArrest-1</Policy>
         <Policy>Quota-1</Policy>
+        <Policy>AssignMessage-Target</Policy>
+        <Policy>RaiseFault-PayloadTooLarge</Policy>
         <Policy>JSONThreatProtection-1</Policy>
         <Policy>AssignMessage-CorrelationId</Policy>
+        <Policy>AssignMessage-CorrelationIdResponse</Policy>
         <Policy>RaiseFault-Errors</Policy>
+        <Policy>RaiseFault-NotFound</Policy>
     </Policies>
     <ProxyEndpoints>
         <ProxyEndpoint>default</ProxyEndpoint>

@@ -1,0 +1,13 @@
+<AssignMessage name="AssignMessage-CorrelationIdResponse">
+    <DisplayName>AssignMessage-CorrelationIdResponse</DisplayName>
+    <Properties/>
+    <!-- Devuelve el x-correlation-id del request y la revision del proxy que respondio (evidencia del rollback) -->
+    <Set>
+        <Headers>
+            <Header name="x-correlation-id">{request.header.x-correlation-id}</Header>
+            <Header name="x-api-revision">{apiproxy.revision}</Header>
+        </Headers>
+    </Set>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <AssignTo createNew="false" transport="http" type="response">response</AssignTo>
+</AssignMessage>

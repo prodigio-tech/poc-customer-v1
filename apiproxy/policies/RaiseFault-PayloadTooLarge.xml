@@ -1,0 +1,19 @@
+<RaiseFault name="RaiseFault-PayloadTooLarge">
+    <DisplayName>RaiseFault-PayloadTooLarge</DisplayName>
+    <Properties/>
+    <!-- Caso de uso: payload JSON <= 2KB -->
+    <FaultResponse>
+        <Set>
+            <Payload contentType="application/json">{
+  "error": {
+    "code": "413",
+    "message": "El payload supera el maximo de 2KB",
+    "correlation_id": "{request.header.x-correlation-id}"
+  }
+}</Payload>
+            <StatusCode>413</StatusCode>
+            <ReasonPhrase>Payload Too Large</ReasonPhrase>
+        </Set>
+    </FaultResponse>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</RaiseFault>
