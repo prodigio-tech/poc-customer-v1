@@ -1,0 +1,18 @@
+<RaiseFault name="RaiseFault-NotFound">
+    <DisplayName>RaiseFault-NotFound</DisplayName>
+    <Properties/>
+    <FaultResponse>
+        <Set>
+            <Payload contentType="application/json">{
+  "error": {
+    "code": "404",
+    "message": "Recurso no encontrado",
+    "correlation_id": "{request.header.x-correlation-id}"
+  }
+}</Payload>
+            <StatusCode>404</StatusCode>
+            <ReasonPhrase>Not Found</ReasonPhrase>
+        </Set>
+    </FaultResponse>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</RaiseFault>

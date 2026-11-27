@@ -1,0 +1,10 @@
+<AssignMessage name="AssignMessage-Target">
+    <DisplayName>AssignMessage-Target</DisplayName>
+    <Properties/>
+    <!-- URL del backend del ambiente (KVM backend_url) + path del request (target.url reemplaza la URL completa) -->
+    <AssignVariable>
+        <Name>target.url</Name>
+        <Template>{kvm.backend_url}{proxy.pathsuffix}</Template>
+    </AssignVariable>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</AssignMessage>

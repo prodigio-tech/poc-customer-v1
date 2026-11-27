@@ -1,0 +1,32 @@
+[
+    {
+       "name":"$API_PRODUCT_NAME",
+       "displayName":"$API_PRODUCT_NAME",
+       "description":"$API_PRODUCT_DESCRIPTION",
+       "approvalType":"auto",
+       "attributes": [
+        {
+            "name": "access",
+            "value": "public"
+        }
+       ],
+       "quota":"10000",
+       "quotaInterval":"1",
+       "quotaTimeUnit":"month",
+       "operationGroup":{
+          "operationConfigs":[
+             {
+                "apiSource":"$CI_PROJECT_NAME",
+                "operations":[
+                   {
+                      "resource":"/",
+                      "methods":[]
+                   }
+                ],
+                "quota":{},
+                "attributes":[]
+             }
+          ]
+       }
+    }
+ ]

@@ -1,0 +1,17 @@
+[
+    {
+        "title": "API Poc Customers",
+        "description": "API de referencia de la PoC CI/CD Apigee Claro CENAM: lista, consulta y crea clientes.",
+        "anonAllowed": true,
+        "imageUrl": "https://www.gstatic.com/bricks/image/b45728f17bf88494b25d78a9fb27ae538e6eb4a06a972f6502b7410ff714532d.svg",
+        "requireCallbackUrl": false,
+        "published": true,
+        "apiProductName": "$API_PRODUCT_NAME",
+        "oasDocumentation": {
+        "spec": {
+            "displayName": "poc-customer-v1",
+            "file": "oas.yaml"
+        }
+     }
+    }
+]
