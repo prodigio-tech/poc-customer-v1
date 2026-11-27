@@ -1,0 +1,6 @@
+<TargetEndpoint name="default">
+    <Description>Target endpoint default - URL via KVM config por ambiente</Description>
+    <HTTPTargetConnection>
+        <URL>https://placeholder.set-by-config.example.com</URL>
+    </HTTPTargetConnection>
+</TargetEndpoint>

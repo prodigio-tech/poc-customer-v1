@@ -1,0 +1,15 @@
+{
+  "env": "dev",
+  "org": "CLARO_CENAM_POC",
+  "api_proxy": "poc-customer-v1",
+  "target_server": "target-dev",
+  "target_url": "https://mock-dev.cenam.local/customer",
+  "kvm": {
+    "backend_url": "https://mock-dev.cenam.local/customer",
+    "api_secret_ref": "vault:projects/poc/dev/secret"
+  },
+  "quota": { "count": 100, "interval": 1, "unit": "minute" },
+  "virtual_host": "dev.cenam.apigee.net",
+  "base_path": "/v1/poc-customer",
+  "certificate": "self-signed-dev"
+}

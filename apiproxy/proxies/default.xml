@@ -1,0 +1,74 @@
+<ProxyEndpoint name="default">
+    <Description>Proxy endpoint default para PoC CENAM</Description>
+    <HTTPProxyConnection>
+        <BasePath>/v1/poc-customer</BasePath>
+        <VirtualHost>secure</VirtualHost>
+    </HTTPProxyConnection>
+    <FaultRules>
+        <FaultRule name="NotFound">
+            <Step>
+                <Name>RaiseFault-Errors</Name>
+                <Condition>response.status.code = "404"</Condition>
+            </Step>
+        </FaultRule>
+        <FaultRule name="ServerError">
+            <Step>
+                <Name>RaiseFault-Errors</Name>
+                <Condition>response.status.code &gt;= "500"</Condition>
+            </Step>
+        </FaultRule>
+    </FaultRules>
+    <DefaultFaultRule>
+        <Step>
+            <Name>RaiseFault-Errors</Name>
+        </Step>
+    </DefaultFaultRule>
+    <PreFlow name="PreFlow">
+        <Request>
+            <Step>
+                <Name>AssignMessage-CorrelationId</Name>
+            </Step>
+            <Step>
+                <Name>VerifyAPIKey-1</Name>
+            </Step>
+            <Step>
+                <Name>Quota-1</Name>
+            </Step>
+            <Step>
+                <Name>JSONThreatProtection-1</Name>
+                <Condition>request.verb = "POST"</Condition>
+            </Step>
+        </Request>
+        <Response/>
+    </PreFlow>
+    <Flows>
+        <Flow name="get-customers">
+            <Description>GET /customers</Description>
+            <Request/>
+            <Response/>
+            <Condition>(proxy.pathsuffix MatchesPath "/customers") and (request.verb = "GET")</Condition>
+        </Flow>
+        <Flow name="get-customer-by-id">
+            <Description>GET /customers/{id}</Description>
+            <Request/>
+            <Response/>
+            <Condition>(proxy.pathsuffix MatchesPath "/customers/*") and (request.verb = "GET")</Condition>
+        </Flow>
+        <Flow name="post-customer">
+            <Description>POST /customers</Description>
+            <Request/>
+            <Response/>
+            <Condition>(proxy.pathsuffix MatchesPath "/customers") and (request.verb = "POST")</Condition>
+        </Flow>
+    </Flows>
+    <PostFlow name="PostFlow">
+        <Request/>
+        <Response/>
+    </PostFlow>
+    <HTTPTargetConnection>
+        <LoadBalancer>
+            <Server name="target-default"/>
+        </LoadBalancer>
+        <Path>/customers</Path>
+    </HTTPTargetConnection>
+</ProxyEndpoint>

@@ -1,0 +1,18 @@
+<Policy name="RaiseFault-Errors" type="RaiseFault">
+    <DisplayName>RaiseFault-Errors</DisplayName>
+    <Properties/>
+    <FaultResponse>
+        <Set>
+            <Payload contentType="application/json">{
+  "error": {
+    "code": "{response.status.code}",
+    "message": "Error en poc-customer-v1",
+    "correlation_id": "{request.header.x-correlation-id}"
+  }
+}</Payload>
+            <StatusCode>500</StatusCode>
+            <ReasonPhrase>Internal Server Error</ReasonPhrase>
+        </Set>
+    </FaultResponse>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+</Policy>

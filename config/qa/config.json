@@ -1,0 +1,15 @@
+{
+  "env": "qa",
+  "org": "CLARO_CENAM_POC",
+  "api_proxy": "poc-customer-v1",
+  "target_server": "target-qa",
+  "target_url": "https://mock-qa.cenam.local/customer",
+  "kvm": {
+    "backend_url": "https://mock-qa.cenam.local/customer",
+    "api_secret_ref": "vault:projects/poc/qa/secret"
+  },
+  "quota": { "count": 500, "interval": 1, "unit": "minute" },
+  "virtual_host": "qa.cenam.apigee.net",
+  "base_path": "/v1/poc-customer",
+  "certificate": "ca-interna-qa"
+}

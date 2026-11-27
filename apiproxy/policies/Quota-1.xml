@@ -1,0 +1,11 @@
+<Policy name="Quota-1" type="Quota">
+    <DisplayName>Quota-1</DisplayName>
+    <Properties/>
+    <Allow count="100" countRef="flow.variable.quota.count"/>
+    <Interval>1</Interval>
+    <TimeUnit>minute</TimeUnit>
+    <Distributed>true</Distributed>
+    <Synchronous>false</Synchronous>
+    <Identifier ref="request.header.x-apikey"/>
+    <MessageWeight ref="request.header.weight"/>
+</Policy>

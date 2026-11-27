@@ -1,0 +1,23 @@
+<APIProxy revision="1" name="poc-customer-v1">
+    <DisplayName>POC Customer v1</DisplayName>
+    <Description>API proxy de referencia para PoC CI/CD Apigee CENAM. PRO-16981.</Description>
+    <CreatedAt>0</CreatedAt>
+    <LastModifiedAt>0</LastModifiedAt>
+    <BasePaths>/v1/poc-customer</BasePaths>
+    <Policies>
+        <Policy>VerifyAPIKey-1</Policy>
+        <Policy>Quota-1</Policy>
+        <Policy>JSONThreatProtection-1</Policy>
+        <Policy>AssignMessage-CorrelationId</Policy>
+        <Policy>RaiseFault-Errors</Policy>
+    </Policies>
+    <ProxyEndpoints>
+        <ProxyEndpoint>default</ProxyEndpoint>
+    </ProxyEndpoints>
+    <TargetEndpoints>
+        <TargetEndpoint>default</TargetEndpoint>
+    </TargetEndpoints>
+    <Resources/>
+    <Spec/>
+    <APIProducts/>
+</APIProxy>

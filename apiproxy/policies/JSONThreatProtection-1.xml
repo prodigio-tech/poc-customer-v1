@@ -1,0 +1,15 @@
+<Policy name="JSONThreatProtection-1" type="JSONThreatProtection">
+    <DisplayName>JSONThreatProtection-1</DisplayName>
+    <Properties/>
+    <Element name="JSON">
+        <ArrayName>array</ArrayName>
+        <ObjectName>object</ObjectName>
+        <ContainerDepth>12</ContainerDepth>
+        <ObjectEntryCount>50</ObjectEntryCount>
+        <ObjectEntryNameLength>50</ObjectEntryNameLength>
+        <ArrayElementCount>50</ArrayElementCount>
+        <StringValueCount>500</StringValueCount>
+        <StringValueLength>2048</StringValueLength>
+    </Element>
+    <Source>request</Source>
+</Policy>

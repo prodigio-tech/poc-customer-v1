@@ -1,0 +1,16 @@
+<Policy name="AssignMessage-CorrelationId" type="AssignMessage">
+    <DisplayName>AssignMessage-CorrelationId</DisplayName>
+    <Properties/>
+    <Set>
+        <Headers>
+            <Header name="x-correlation-id">{request.header.x-correlation-id}</Header>
+        </Headers>
+    </Set>
+    <AssignVariable>
+        <Name>response.header.x-correlation-id</Name>
+        <Ref>request.header.x-correlation-id</Ref>
+        <Value>{system.uuid}</Value>
+    </AssignVariable>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <AssignTo createNew="false" transport="http" type="request">request</AssignTo>
+</Policy>
