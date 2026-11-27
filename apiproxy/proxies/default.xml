@@ -4,35 +4,41 @@
         <BasePath>/v1/poc-customer</BasePath>
         <VirtualHost>secure</VirtualHost>
     </HTTPProxyConnection>
+    <!-- 404 y 5xx del backend con formato JSON consistente; el resto (401, 400, 429) conserva su codigo -->
     <FaultRules>
         <FaultRule name="NotFound">
             <Step>
-                <Name>RaiseFault-Errors</Name>
-                <Condition>response.status.code = "404"</Condition>
+                <Name>RaiseFault-NotFound</Name>
             </Step>
+            <Condition>response.status.code = 404</Condition>
         </FaultRule>
         <FaultRule name="ServerError">
             <Step>
                 <Name>RaiseFault-Errors</Name>
-                <Condition>response.status.code &gt;= "500"</Condition>
             </Step>
+            <Condition>response.status.code &gt;= 500</Condition>
         </FaultRule>
     </FaultRules>
-    <DefaultFaultRule>
-        <Step>
-            <Name>RaiseFault-Errors</Name>
-        </Step>
-    </DefaultFaultRule>
     <PreFlow name="PreFlow">
         <Request>
             <Step>
                 <Name>AssignMessage-CorrelationId</Name>
             </Step>
             <Step>
+                <Name>SpikeArrest-1</Name>
+            </Step>
+            <Step>
                 <Name>VerifyAPIKey-1</Name>
             </Step>
             <Step>
+                <Name>KVM-Config</Name>
+            </Step>
+            <Step>
                 <Name>Quota-1</Name>
+            </Step>
+            <Step>
+                <Name>RaiseFault-PayloadTooLarge</Name>
+                <Condition>(request.verb = "POST") and (request.header.content-length &gt; 2048)</Condition>
             </Step>
             <Step>
                 <Name>JSONThreatProtection-1</Name>
@@ -63,12 +69,13 @@
     </Flows>
     <PostFlow name="PostFlow">
         <Request/>
-        <Response/>
+        <Response>
+            <Step>
+                <Name>AssignMessage-CorrelationIdResponse</Name>
+            </Step>
+        </Response>
     </PostFlow>
-    <HTTPTargetConnection>
-        <LoadBalancer>
-            <Server name="target-default"/>
-        </LoadBalancer>
-        <Path>/customers</Path>
-    </HTTPTargetConnection>
+    <RouteRule name="default">
+        <TargetEndpoint>default</TargetEndpoint>
+    </RouteRule>
 </ProxyEndpoint>

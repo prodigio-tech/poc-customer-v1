@@ -1,0 +1,48 @@
+name: CI/CD Apigee Pipeline
+
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      promote_to:
+        description: Promover el mismo artefacto a QA o PROD
+        type: choice
+        options: [none, qa, prod]
+        default: none
+      rollback:
+        description: Ejecutar rollback
+        type: boolean
+        default: false
+      rollback_environment:
+        description: Ambiente del rollback
+        type: choice
+        options: [dev, qa, prod]
+        default: dev
+      rollback_revision:
+        description: Revision destino (vacio = la anterior a la desplegada)
+        default: ''
+
+jobs:
+  apigee:
+    permissions:
+      contents: write
+    uses: prodigio-tech/ci-templates/.github/workflows/proxy-apigee-deploy.yml@main
+    with:
+      promote_to: ${{ inputs.promote_to != 'none' && inputs.promote_to || '' }}
+      rollback: ${{ inputs.rollback || false }}
+      rollback_environment: ${{ inputs.rollback_environment || 'dev' }}
+      rollback_revision: ${{ inputs.rollback_revision || '' }}
+      apigeelint: 'true'
+      spectral: 'true'
+      sonarqube: true
+      project_identifier: claro-cenam
+      base_path: /v1/poc-customer
+      integration_test: true
+      advanced_api_security: true
+      publish_portal: true
+      api_product_name: poc-product
+      api_product_description: Producto de la API de clientes de la PoC
+    secrets:
+      GCP_CORE_INFRA_SA: ${{ secrets.GCP_CORE_INFRA_SA }}
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+

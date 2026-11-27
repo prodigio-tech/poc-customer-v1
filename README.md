@@ -63,6 +63,10 @@ python scripts/rollback.py dev
 - `.github/workflows/03-promote-qa.yml`      - manual: promueve mismo SHA a QA + test
 - `.github/workflows/04-rollback.yml`        - manual: rollback a revision N-1
 
+## Versionado
+Cada deploy a DEV crea el tag `v<N>.0.0` y su GitHub Release, donde N es la revision que Apigee asigno al proxy (Apigee numera las revisiones 1, 2, 3...).
+El tag apunta al commit desplegado, asi que `vN.0.0` en Git es la revision N en Apigee (revision 1 = `v1.0.0`). El promote a QA reutiliza la misma revision.
+
 ## Mapeo capability -> evidencia
 Ver `docs/capability-mapping.md`.
 
@@ -71,3 +75,6 @@ Ver `docs/capability-mapping.md`.
 - Ningun secreto en texto plano: GitHub Secrets + Apigee vault/KVM.
 - El workflow debe estar en GitHub Actions.
 - Rollback debe ejecutarse en vivo.
+
+
+

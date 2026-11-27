@@ -1,0 +1,17 @@
+<KeyValueMapOperations name="KVM-Config" mapIdentifier="poc-customer-v1-config">
+    <DisplayName>KVM-Config</DisplayName>
+    <Properties/>
+    <!-- Configuracion por ambiente: la crea el pipeline desde config/<env>/config.json -->
+    <ExpiryTimeInSecs>300</ExpiryTimeInSecs>
+    <Get assignTo="kvm.backend_url">
+        <Key>
+            <Parameter>backend_url</Parameter>
+        </Key>
+    </Get>
+    <Get assignTo="flow.variable.quota.count">
+        <Key>
+            <Parameter>quota_count</Parameter>
+        </Key>
+    </Get>
+    <Scope>environment</Scope>
+</KeyValueMapOperations>

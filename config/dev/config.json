@@ -3,9 +3,9 @@
   "org": "CLARO_CENAM_POC",
   "api_proxy": "poc-customer-v1",
   "target_server": "target-dev",
-  "target_url": "https://mock-dev.cenam.local/customer",
+  "target_url": "https://poc-customers-mock-dev-982194928152.southamerica-west1.run.app",
   "kvm": {
-    "backend_url": "https://mock-dev.cenam.local/customer",
+    "backend_url": "https://poc-customers-mock-dev-982194928152.southamerica-west1.run.app/poc-customers/v0",
     "api_secret_ref": "vault:projects/poc/dev/secret"
   },
   "quota": { "count": 100, "interval": 1, "unit": "minute" },

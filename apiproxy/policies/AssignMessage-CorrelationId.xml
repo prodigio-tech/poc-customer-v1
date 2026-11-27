@@ -1,16 +1,12 @@
-<Policy name="AssignMessage-CorrelationId" type="AssignMessage">
+<AssignMessage name="AssignMessage-CorrelationId">
     <DisplayName>AssignMessage-CorrelationId</DisplayName>
     <Properties/>
+    <!-- Usa el x-correlation-id del cliente o genera un UUID; viaja al backend y vuelve en la respuesta -->
     <Set>
         <Headers>
-            <Header name="x-correlation-id">{request.header.x-correlation-id}</Header>
+            <Header name="x-correlation-id">{firstnonnull(request.header.x-correlation-id,system.uuid)}</Header>
         </Headers>
     </Set>
-    <AssignVariable>
-        <Name>response.header.x-correlation-id</Name>
-        <Ref>request.header.x-correlation-id</Ref>
-        <Value>{system.uuid}</Value>
-    </AssignVariable>
     <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
     <AssignTo createNew="false" transport="http" type="request">request</AssignTo>
-</Policy>
+</AssignMessage>

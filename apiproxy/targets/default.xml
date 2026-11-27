@@ -1,5 +1,13 @@
 <TargetEndpoint name="default">
     <Description>Target endpoint default - URL via KVM config por ambiente</Description>
+    <PreFlow name="PreFlow">
+        <Request>
+            <Step>
+                <Name>AssignMessage-Target</Name>
+            </Step>
+        </Request>
+        <Response/>
+    </PreFlow>
     <HTTPTargetConnection>
         <URL>https://placeholder.set-by-config.example.com</URL>
     </HTTPTargetConnection>

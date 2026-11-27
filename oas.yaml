@@ -1,0 +1,285 @@
+openapi: 3.0.3
+info:
+  title: API Poc Customers
+  version: 1.0.0
+  description: >-
+    API de referencia de la PoC CI/CD Apigee Claro CENAM (PRO-16981). Expone la gestión de clientes
+    sobre el backend mock /poc-customers/v0.
+  contact:
+    name: Claro CENAM - PoC CI/CD Apigee
+servers:
+  - url: https://api.dev.bice.prodigio.tech/v1/poc-customer
+    description: DEV (ambiente de desarrollo, no productivo)
+    x-internal: false
+security:
+  - apiKey: []
+tags:
+  - name: customers
+    description: Clientes
+paths:
+  /customers:
+    get:
+      tags: [customers]
+      operationId: listCustomers
+      summary: Lista clientes (paginado)
+      description: Devuelve los clientes del backend mock /poc-customers/v0, paginados con page y size.
+      parameters:
+        - name: page
+          in: query
+          description: Número de página, desde 1
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 10000
+            default: 1
+        - name: size
+          in: query
+          description: Cantidad de clientes por página
+          schema:
+            type: integer
+            format: int32
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        '200':
+          description: Página de clientes
+          headers: &standardHeaders
+            x-correlation-id:
+              $ref: '#/components/headers/CorrelationId'
+            Access-Control-Allow-Origin:
+              $ref: '#/components/headers/Access-Control-Allow-Origin'
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/RateLimitLimit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/RateLimitRemaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/RateLimitReset'
+          content:
+            application/json:
+              schema:
+                type: array
+                maxItems: 100
+                items:
+                  $ref: '#/components/schemas/Customer'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+    post:
+      tags: [customers]
+      operationId: createCustomer
+      summary: Crea cliente (valida payload)
+      description: Crea un cliente. El payload debe incluir nombre, documento, segmento y correo.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerRequest'
+            example:
+              nombre: Cliente POC
+              documento: '12345678'
+              segmento: CENAM
+              correo: poc@cenam.claro.com
+      responses:
+        '201':
+          description: Cliente creado
+          headers: *standardHeaders
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '413':
+          $ref: '#/components/responses/PayloadTooLarge'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+  /customers/{id}:
+    get:
+      tags: [customers]
+      operationId: getCustomer
+      summary: Obtiene cliente por id
+      description: Devuelve un cliente por su identificador; 404 si no existe.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Identificador del cliente
+          schema:
+            type: string
+            maxLength: 64
+            pattern: '^[A-Za-z0-9-]+$'
+      responses:
+        '200':
+          description: Cliente
+          headers: *standardHeaders
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '429':
+          $ref: '#/components/responses/TooManyRequests'
+        '500':
+          $ref: '#/components/responses/ServerError'
+components:
+  securitySchemes:
+    apiKey:
+      type: apiKey
+      in: header
+      name: x-apikey
+  headers:
+    Access-Control-Allow-Origin:
+      description: Origen permitido por CORS
+      schema:
+        type: string
+        maxLength: 255
+    CorrelationId:
+      description: Identificador de correlación de la petición
+      schema:
+        type: string
+        maxLength: 64
+    RateLimitLimit:
+      description: Peticiones permitidas en la ventana (Quota)
+      schema:
+        type: integer
+        format: int32
+        minimum: 0
+        maximum: 1000000
+    RateLimitRemaining:
+      description: Peticiones restantes en la ventana
+      schema:
+        type: integer
+        format: int32
+        minimum: 0
+        maximum: 1000000
+    RateLimitReset:
+      description: Segundos hasta que se reinicia la ventana
+      schema:
+        type: integer
+        format: int32
+        minimum: 0
+        maximum: 86400
+  schemas:
+    CustomerRequest:
+      type: object
+      additionalProperties: false
+      required: [nombre, documento, segmento, correo]
+      properties:
+        nombre:
+          type: string
+          minLength: 1
+          maxLength: 100
+        documento:
+          type: string
+          pattern: '^[0-9]{6,15}$'
+          maxLength: 15
+        segmento:
+          type: string
+          minLength: 1
+          maxLength: 50
+        correo:
+          type: string
+          format: email
+          maxLength: 254
+    Customer:
+      allOf:
+        - type: object
+          required: [id]
+          properties:
+            id:
+              type: string
+              maxLength: 64
+        - $ref: '#/components/schemas/CustomerRequest'
+    Error:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              maxLength: 3
+            message:
+              type: string
+              maxLength: 500
+            correlation_id:
+              type: string
+              maxLength: 64
+  responses:
+    BadRequest:
+      description: Payload o parámetros inválidos
+      headers: *standardHeaders
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: API key ausente o inválida
+      headers: *standardHeaders
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Cliente no encontrado
+      headers: *standardHeaders
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    PayloadTooLarge:
+      description: Payload mayor a 2KB
+      headers: *standardHeaders
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    TooManyRequests:
+      description: Cuota excedida
+      headers:
+        Retry-After:
+          description: Segundos para reintentar
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 86400
+        x-correlation-id:
+          $ref: '#/components/headers/CorrelationId'
+        Access-Control-Allow-Origin:
+          $ref: '#/components/headers/Access-Control-Allow-Origin'
+        X-RateLimit-Limit:
+          $ref: '#/components/headers/RateLimitLimit'
+        X-RateLimit-Remaining:
+          $ref: '#/components/headers/RateLimitRemaining'
+        X-RateLimit-Reset:
+          $ref: '#/components/headers/RateLimitReset'
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    ServerError:
+      description: Error interno
+      headers: *standardHeaders
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'

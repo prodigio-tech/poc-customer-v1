@@ -1,4 +1,4 @@
-<Policy name="RaiseFault-Errors" type="RaiseFault">
+<RaiseFault name="RaiseFault-Errors">
     <DisplayName>RaiseFault-Errors</DisplayName>
     <Properties/>
     <FaultResponse>
@@ -15,4 +15,4 @@
         </Set>
     </FaultResponse>
     <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
-</Policy>
+</RaiseFault>

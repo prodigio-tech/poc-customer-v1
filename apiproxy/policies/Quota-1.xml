@@ -1,4 +1,4 @@
-<Policy name="Quota-1" type="Quota">
+<Quota name="Quota-1">
     <DisplayName>Quota-1</DisplayName>
     <Properties/>
     <Allow count="100" countRef="flow.variable.quota.count"/>
@@ -8,4 +8,4 @@
     <Synchronous>false</Synchronous>
     <Identifier ref="request.header.x-apikey"/>
     <MessageWeight ref="request.header.weight"/>
-</Policy>
+</Quota>

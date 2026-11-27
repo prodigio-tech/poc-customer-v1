@@ -1,0 +1,18 @@
+# macOS
+.DS_Store
+
+# Node (pruebas, lint)
+node_modules/
+
+# Build de Maven / Apigee
+target/
+pom.xml
+
+# Reportes generados por el pipeline
+report.json
+cucumber_report.html
+*-results.json
+*-results.html
+gl-*-report.json
+.scannerwork/
+*.log
